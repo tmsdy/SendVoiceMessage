@@ -24,7 +24,7 @@ namespace SendVoiceMessage
             StringBuilder sb = new StringBuilder();
             foreach (byte b in ba)
             {
-                sb.Append(b.ToString("x"));
+                sb.Append( b.ToString("x2")+ " "  );
             }
             richTextBox1.AppendText(sb.ToString());
 
@@ -33,7 +33,10 @@ namespace SendVoiceMessage
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            richTextBox1.AppendText("登录包\r\n");
+            string sLogin = "SWAP00" + textBox1.Text + "#";
+            pringASCII(sLogin);
+            richTextBox1.AppendText("\r\n");
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             //设置打开文件的格式
             openFileDialog1.Filter = "录音文件(*.amr)|*.amr";
@@ -41,7 +44,7 @@ namespace SendVoiceMessage
             {
                 return;
             }
-            richTextBox1.Text = string.Empty;
+            //richTextBox1.Text = string.Empty;
             //使用“打开”对话框中选择的文件名实例化FileStream对象
             FileStream myStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read);
             int iStreamLength = (int) myStream.Length;
@@ -68,7 +71,7 @@ namespace SendVoiceMessage
                     iPktLenth = iStreamLength - (int)(iMaxPktLenth) * (i - 1);
 
                  
-                sPktPrefix = "SWAP46," + textBox1.Text + "," + sTime + "," + iPktPartCount.ToString() +
+                sPktPrefix = "SWAP45," + textBox1.Text + "," + sTime + "," + iPktPartCount.ToString() +
                     "," + i.ToString() + "," + iPktLenth.ToString() + "," ;
                 //richTextBox1.AppendText(sPktPrefix );
 
@@ -76,7 +79,7 @@ namespace SendVoiceMessage
                 pringASCII(sPktPrefix);
                 for (j = 0; j < iPktLenth; j++, iPktIndex++)
                 {
-                    richTextBox1.AppendText(byteFile[iPktIndex].ToString("x2"));
+                    richTextBox1.AppendText(byteFile[iPktIndex].ToString("x2") + " ");
                 }
                 pringASCII("#");
                 richTextBox1.AppendText("\r\n");
